@@ -3,23 +3,21 @@ package com.ejemplos.dam.animation
 import android.util.Log
 
 /**
- * Created by flia on 4/2/18.
+ * Clase para manejo de datos
  */
 data class Mensajes constructor(private var key2: String = "Hi"){
-
+    //propiedad
     var key: String = ""
-
+        // get por defecto
         get() = field
+        // cambiamos el set
         set(value) {
             field = value + " :P"
         }
-
+    // objeto
     companion object Compi {
         fun say(message: String) {
-            Log.d("datos",message)
-        }
-
-        fun write(message: String) {
+            Log.d("Mensajes",message)
         }
     }
 

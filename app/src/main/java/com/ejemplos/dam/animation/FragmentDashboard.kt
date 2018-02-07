@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_dashboard.*
  */
 class FragmentDashboard : Fragment() {
     /**
-     * Initialize newInstance for passing paameters
+     * Initialize newInstance for passing parameters
      */
     companion object {
         fun newInstance(): FragmentDashboard {

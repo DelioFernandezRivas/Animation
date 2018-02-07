@@ -1,7 +1,5 @@
 package com.ejemplos.dam.animation
 
-import android.animation.AnimatorInflater
-import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -18,7 +16,7 @@ import kotlin.coroutines.experimental.CoroutineContext
 
 class MainActivity : AppCompatActivity() {
 
-    //private var expectAnimMove : ExpectAnim = ExpectAnim()
+    // private var expectAnimMove : ExpectAnim = ExpectAnim()
     // dispatches execution onto the Android main UI thread
     private val uiContext: CoroutineContext = UI
 
@@ -28,53 +26,36 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        /**
+         * Utilización de la clase Mensajes y el companion object
+         */
         var miMensaje = Mensajes("hola Caracola")
-        miMensaje.key = "JJ"
+        miMensaje.key = "JJBXK"
         Mensajes.say(miMensaje.key)
 
 
-
-        val intento : Intent = Intent(this,Main2Activity::class.java)
-        domottaButton.setOnClickListener {
-            startActivity(intento)
-        }
+        // Listener del boton animacion que ejecuta una tarea de animacion en segundo plano
         animacion.setOnClickListener {
             tareaSegundoPlano()
-            /*
-            domotta.animate()
-                    //.translationY(250f)
-                    .rotationBy(90f)
-                    .setDuration(2500L)
-                    .start()
-            */
-
-            /*val domottaSet = AnimatorInflater.loadAnimator(this, R.animator.clockwise_rotation)
-            val textoSet = AnimatorInflater.loadAnimator(this, R.animator.clockwise_rotation)
-            domottaSet.setTarget(domotta)
-            textoSet.setTarget(animacion)
-            val bothAnimatorSet = AnimatorSet()
-            bothAnimatorSet.playTogether(domottaSet,textoSet)
-            bothAnimatorSet.duration = 500
-            bothAnimatorSet.start()
-            */
-
-            //domottaSet.start()
-            /*if (texto!!.rotation == 0f) {
-                expectAnimMove.start()
-            } else {
-                expectAnimMove.reset()
-            }*/
         }
+        // Listener del boton Domotta que me 'abre' la Main2Activity con el menu inferior
+        val intento : Intent = Intent(this,Main2Activity::class.java)
         domotta.setOnClickListener{
             toast("Soy Domotta")
+            startActivity(intento)
         }
     }
+
+    /**
+     * launch coroutine in UI context
+     */
+
     var j : Int = 1
     var job2 : Job? = null
-    // launch coroutine in UI context
+
     private fun tareaSegundoPlano() = launch(uiContext) {
-        // tarea child en este contexto
+        // tarea child en el contexto de este hilo/thread
+        // contador de 30 hacia 1
         val task2 = async(bgContext) {
             for (i in 30 downTo 1) { // countdown from 10 to 1
                 //texto2.text = "Countdown $i ..." // update text
@@ -84,9 +65,12 @@ class MainActivity : AppCompatActivity() {
         }
         job2 = task2
         // non ui thread (child task)
+        // lanzamos la tarea
         val result = task2.start()
         // tambien podemos job2?.start()
+
         // domotta bajando/subiendo
+        // esta tarea es la tarea principal
         j *= -1
         // animamos a domotta, main task in UI
         val objectAnimator = ObjectAnimator.ofFloat(
@@ -101,10 +85,10 @@ class MainActivity : AppCompatActivity() {
             texto.text = "Countdown $i ..." // update text
             delay(500) // wait half a second
 
-            // si la animacion para paro la tarea 2
+            // si la animacion para, paro la tarea 2
             if (!objectAnimator.isRunning) job2!!.cancel()
         }
-
+        // finalizamos la tarea principal
         texto.text = "Done!"
     }
 }
