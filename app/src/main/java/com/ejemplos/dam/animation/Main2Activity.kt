@@ -8,23 +8,20 @@ import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main2.*
 
 class Main2Activity : AppCompatActivity() {
-
+    var count : Int = 0
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
                 message.setText(R.string.title_home)
                 // Cargamos Fragment Home
-                val fragment = FragmentHome.Companion.newInstance("variable asignada desde activity 2 al Fragment Home")
+                count += 1
+                val fragment = FragmentHome.Companion.nuevaInstance("desde la activity ${count}")
                 addFragment(fragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
                 message.setText(R.string.title_dashboard)
                 // Cargamos Fragment DashBoard
-                val fragment = FragmentDashboard.Companion.newInstance()
-                val args = Bundle()
-                args.putString("key","variable asignada desde activity 2 al fragment Dashboard")
-                addFragment(fragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
@@ -57,6 +54,6 @@ class Main2Activity : AppCompatActivity() {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         // Por defecto cargamos fragment Home
-        addFragment(FragmentHome.Companion.newInstance("Por defecto cargamos Home"))
+        addFragment(FragmentHome.Companion.nuevaInstance("Por defecto cargamos Home"))
     }
 }
