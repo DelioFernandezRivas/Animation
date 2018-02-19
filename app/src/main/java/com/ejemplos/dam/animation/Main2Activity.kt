@@ -6,9 +6,15 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_main2.*
+import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 class Main2Activity : AppCompatActivity() {
+    // contador auxiliar
     var count : Int = 0
+
+    // Bundle para pasarle datos al Fragment
+    var mArgs = Bundle();
+
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
@@ -22,6 +28,12 @@ class Main2Activity : AppCompatActivity() {
             R.id.navigation_dashboard -> {
                 message.setText(R.string.title_dashboard)
                 // Cargamos Fragment DashBoard
+                val dFragment = FragmentDashboard()
+
+                mArgs.putString("descripcion", "Un dato desde la Activity mediante Bundler");
+                dFragment.setArguments(mArgs)
+                addFragment(dFragment)
+                //textViewDashboard.setText("Desde Activity")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
